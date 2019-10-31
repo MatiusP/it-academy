@@ -1,5 +1,7 @@
 package by.it.protsko.jd01_05;
 
+import java.util.Arrays;
+
 import static java.lang.Math.*;
 
 public class TaskC {
@@ -14,7 +16,16 @@ public class TaskC {
         getAverageValueArrayElements(arrayB);
 
         //task7
+        System.out.println();
+        int[] arrayC = new int[31];
+        for (int i = 0; i < arrayC.length; i++) {
+            arrayC[i] = getRundomNumber(103, 450);
+        }
+        printArrayInTable(arrayC, "C", true, 5);
 
+        int[] arrayD = createNewArray(arrayC);
+        Arrays.sort(arrayD);
+        printArrayInTable(arrayD, "D", false, 2);
     }
 
     private static int getRundomNumber(int min, int max) {
@@ -71,5 +82,78 @@ public class TaskC {
             sum += element;
         }
         System.out.println("Среднее арифметическое значение элементов массива = " + sum / array.length);
+    }
+
+    private static int[] createNewArray(int[] array) {
+        int count = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (Math.ceil(array[i] * 0.1) > i) {
+                count++;
+            }
+        }
+        int[] newArray = new int[count];
+        count = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (Math.ceil(array[i] * 0.1) > i) {
+                newArray[count] = array[i];
+                count++;
+            }
+        }
+        return newArray;
+    }
+
+    /**
+     * @param array:       массив, выводимый на экран
+     * @param nameArray:   имя массива, который печатается
+     * @param condition:   если передаем true - изменение индкекса элемента массива по строке, false - по столбцу
+     * @param countColumn: максимальное количество столбцов вывода
+     */
+    private static void printArrayInTable(int[] array, String nameArray, boolean condition, int countColumn) {
+        System.out.printf("Array %s%n", nameArray);
+
+        int count = 1;
+        int rowCount;
+        int countIndex = 0;
+        do {
+            rowCount = 0;
+            for (int i = 0; i < countColumn; i++) {
+                System.out.print(" ------------ ");
+            }
+            System.out.println();
+
+            if (condition) {
+                for (int i = countIndex; i < array.length; i++) {
+                    System.out.printf("| %s[% -3d]=%3d |", nameArray, i, array[i]);
+                    rowCount++;
+                    countIndex++;
+                    if (rowCount >= countColumn) {
+                        break;
+                    }
+                }
+            }
+            if (!condition) {
+                for (int i = countIndex; i < array.length; i += array.length / countColumn + 1) {
+                    if (countIndex < array.length) {
+                        System.out.printf("| %s[% -3d]=%3d |", nameArray, i, array[i]);
+                        rowCount++;
+                        if (rowCount >= countColumn) {
+                            break;
+                        }
+                    }
+                    countIndex++;
+                }
+            }
+            if (countIndex == array.length || rowCount < countColumn) {
+                for (int i = array.length % countColumn; i < countColumn; i++) {
+                    System.out.print("|            |");
+                }
+            }
+            System.out.println();
+            count++;
+        } while (count <= (array.length / countColumn + 1));
+        for (int i = 0; i < countColumn; i++) {
+            System.out.print(" ------------ ");
+        }
+        System.out.println();
     }
 }
