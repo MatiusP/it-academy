@@ -21,11 +21,11 @@ public class TaskC {
         for (int i = 0; i < arrayC.length; i++) {
             arrayC[i] = getRundomNumber(103, 450);
         }
-        printArrayInTable(arrayC, "C", true, 5);
+        printArrayInTable(arrayC, "C", true, 6);
 
         int[] arrayD = createNewArray(arrayC);
         Arrays.sort(arrayD);
-        printArrayInTable(arrayD, "D", false, 2);
+        printArrayInTable(arrayD, "D", false, 5);
     }
 
     private static int getRundomNumber(int min, int max) {
@@ -132,21 +132,19 @@ public class TaskC {
                 }
             }
             if (!condition) {
-                for (int i = countIndex; i < array.length; i += array.length / countColumn + 1) {
-                    if (countIndex < array.length) {
-                        System.out.printf("| %s[% -3d]=%3d |", nameArray, i, array[i]);
-                        rowCount++;
-                        if (rowCount >= countColumn) {
-                            break;
-                        }
+
+                for (int i = countIndex; i < array.length; i += (array.length / countColumn) + 1) {
+                    System.out.printf("| %s[% -3d]=%3d |", nameArray, i, array[i]);
+                    rowCount++;
+                    if (rowCount >= countColumn) {
+                        break;
                     }
-                    countIndex++;
                 }
+                countIndex++;
             }
             if (countIndex == array.length || rowCount < countColumn) {
-                for (int i = array.length % countColumn; i < countColumn; i++) {
+                for (int i = array.length % countColumn; i < countColumn; i++)
                     System.out.print("|            |");
-                }
             }
             System.out.println();
             count++;
