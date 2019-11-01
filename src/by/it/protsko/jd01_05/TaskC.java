@@ -17,15 +17,15 @@ public class TaskC {
 
         //task7
         System.out.println();
-        int[] arrayC = new int[31];
+        int[] arrayC = new int[31];///////////////
         for (int i = 0; i < arrayC.length; i++) {
             arrayC[i] = getRundomNumber(103, 450);
         }
-        printArrayInTable(arrayC, "C", true, 6);
+        printArrayInTable(arrayC, "C", true, 5);
 
         int[] arrayD = createNewArray(arrayC);
         Arrays.sort(arrayD);
-        printArrayInTable(arrayD, "D", false, 5);
+        printArrayInTable(arrayD, "D", false, 2);
     }
 
     private static int getRundomNumber(int min, int max) {
@@ -114,6 +114,13 @@ public class TaskC {
         int count = 1;
         int rowCount;
         int countIndex = 0;
+        int nextIndex;
+        if (array.length % countColumn == 0) {
+            nextIndex = array.length / countColumn;
+        } else {
+            nextIndex = array.length / countColumn + 1;
+        }
+
         do {
             rowCount = 0;
             for (int i = 0; i < countColumn; i++) {
@@ -132,23 +139,26 @@ public class TaskC {
                 }
             }
             if (!condition) {
-
-                for (int i = countIndex; i < array.length; i += (array.length / countColumn) + 1) {
-                    System.out.printf("| %s[% -3d]=%3d |", nameArray, i, array[i]);
+                for (int i = countIndex; i < array.length; i += nextIndex) {
+                    if (countIndex < nextIndex) {
+                        System.out.printf("| %s[% -3d]=%3d |", nameArray, i, array[i]);
+                    }
                     rowCount++;
-                    if (rowCount >= countColumn) {
+                    if (rowCount > countColumn) {
                         break;
                     }
                 }
                 countIndex++;
             }
-            if (countIndex == array.length || rowCount < countColumn) {
+
+            if (countIndex == array.length || rowCount < countColumn && countIndex <= nextIndex) {
                 for (int i = array.length % countColumn; i < countColumn; i++)
                     System.out.print("|            |");
             }
             System.out.println();
             count++;
-        } while (count <= (array.length / countColumn + 1));
+        } while (count <= (nextIndex) || countIndex < nextIndex);
+
         for (int i = 0; i < countColumn; i++) {
             System.out.print(" ------------ ");
         }
