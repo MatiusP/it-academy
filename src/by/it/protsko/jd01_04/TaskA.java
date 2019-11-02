@@ -47,9 +47,8 @@ public class TaskA {
         for (int i = 0; i < numericArray.length; i++) {
             System.out.printf("%s[% -3d]=%-9.1f", "V", i, numericArray[i]);
             count++;
-            if (count == 5) {
+            if (count % 5 == 0 || count == numericArray.length) {
                 System.out.println();
-                count = 0;
             }
         }
 
@@ -73,9 +72,8 @@ public class TaskA {
         for (int i = 0; i < numericArray.length; i++) {
             System.out.printf("%s[% -3d]=%-9.1f", "V", i, numericArray[i]);
             count++;
-            if (count == 4) {
+            if (count % 4 == 0 || count == numericArray.length) {
                 System.out.println();
-                count = 0;
             }
         }
 
