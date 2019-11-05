@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class AdditionalTask1 {
 
     public static void main(String[] args) {
-        //String line1 = "10 25 369 25 78 787 10358 15315 231 250 -358 12 -325875";
 
         //step1: ввод чисел с консоли и создание массива введенных чисел
         int[] numberArray = createNumberArray(5);
@@ -31,6 +30,11 @@ public class AdditionalTask1 {
         //step7: поиск чисел, в которых цифры идут в строгом порядке возрастания и вывод последнего найденного числа в консоль
         searchNumberWithSortDigits(numberArray);
 
+        //step8: поиск чисел, состоящих только из различных цифр и вывод первого из них на консоль
+        searchNumberWithDifferentDigits(numberArray);
+
+        //step9: поиск чисел-полиндромов и вывод второго найденного числа на консоль
+        searchPolindromNumber(numberArray);
 
     }
 
@@ -151,7 +155,7 @@ public class AdditionalTask1 {
             }
         }
         if (countNumberWithOnlyEvenDigits == 0) {
-            System.out.print("Отсутвуют числа, в которых все цифры четные");
+            System.out.println("Отсутвуют числа, в которых все цифры четные");
         } else {
             System.out.println("Количество чисел, в которых все цифры четные = " + countNumberWithOnlyEvenDigits);
         }
@@ -162,7 +166,7 @@ public class AdditionalTask1 {
         String[] stringArray = createStringArray(numberArray);
         int countNumberWithSortDigits = 0;
 
-        for (int i = stringArray.length-1; i >= 0; i--) {
+        for (int i = stringArray.length - 1; i >= 0; i--) {
             int count = 1;
             if (stringArray[i].length() > 1) {
                 digitArray = stringArray[i].toCharArray();
@@ -183,5 +187,59 @@ public class AdditionalTask1 {
         }
     }
 
+    private static void searchNumberWithDifferentDigits(int[] numberArray) {
+        char[] digitArray;
+        String[] stringArray = createStringArray(numberArray);
+        int countNumberWithDifferentDigits = 0;
+        String firstNumberWithDifferentDigits = "";
+
+        for (String element : stringArray) {
+            boolean isDifferentDigits = true;
+            if (element.length() > 1) {
+                digitArray = element.toCharArray();
+                for (int j = 0; j < digitArray.length - 1; j++) {
+                    for (int z = j + 1; z < digitArray.length; z++) {
+                        if (digitArray[j] == digitArray[z]) {
+                            isDifferentDigits = false;
+                            break;
+                        }
+                    }
+                    if (!isDifferentDigits) break;
+                }
+            }
+            if (isDifferentDigits) {
+                countNumberWithDifferentDigits++;
+                if (countNumberWithDifferentDigits < 2) {
+                    firstNumberWithDifferentDigits = element;
+                }
+            }
+        }
+        if (countNumberWithDifferentDigits == 0) {
+            System.out.println("Отсутсвуют числа, в которых все цифры различные.");
+        } else {
+            System.out.println("Всего чисел, в которых все цифры различные - " + countNumberWithDifferentDigits + ".  Первое из них " + firstNumberWithDifferentDigits);
+        }
+    }
+
+    private static void searchPolindromNumber(int[] numberArray) {
+        String[] stringArray = createStringArray(numberArray);
+        int countPolindromNumber = 0;
+        String polindromNumber = "";
+
+        for (String element : stringArray) {
+            String newStr = new StringBuffer(element).reverse().toString();
+            if (element.equals(newStr)) {
+                countPolindromNumber++;
+                if (countPolindromNumber <= 2) {
+                    polindromNumber = element;
+                }
+            }
+        }
+        if (countPolindromNumber == 0) {
+            System.out.println("Числа-полиндромы отсутсвуют");
+        } else {
+            System.out.println("Всего чисел-полиндромов - " + countPolindromNumber + ". Второе найденное число - " + polindromNumber);
+        }
+    }
 
 }
