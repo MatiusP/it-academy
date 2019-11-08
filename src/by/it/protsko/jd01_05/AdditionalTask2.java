@@ -8,12 +8,12 @@ public class AdditionalTask2 {
 
         //step1: формирование матрицы
         int[][] numberMatrix = createMatrix(5);
-        for (int[] row : numberMatrix) {
-            for (int element : row) {
-                System.out.print(element + " ");
-            }
-            System.out.println();
-        }
+
+        //step2: циклический сдвиг матрицы
+
+        //step3: поворот матрицы на 90 градусов против часовой стрелки
+
+
     }
 
     private static int[][] createMatrix(int n) {
@@ -25,5 +25,6 @@ public class AdditionalTask2 {
         }
         return matrix;
     }
+
 
 }
