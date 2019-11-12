@@ -2,7 +2,7 @@ package by.it.protsko.jd01_07;
 
 import java.util.Arrays;
 
-public class Vector extends Var {
+class Vector extends Var {
 
     private double[] value;
 
@@ -30,14 +30,6 @@ public class Vector extends Var {
 
     @Override
     public String toString() {
-        StringBuilder stringLine = new StringBuilder("{");
-        for (int i = 0; i < value.length; i++) {
-            if (i < value.length - 1) {
-                stringLine.append(String.valueOf(value[i]).concat(", "));
-            } else {
-                stringLine.append(String.valueOf(value[i]).concat("}"));
-            }
-        }
-        return stringLine.toString();
+        return Arrays.toString(value).replace('[', '{').replace(']', '}');
     }
 }
