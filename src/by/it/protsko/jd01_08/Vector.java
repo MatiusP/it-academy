@@ -84,24 +84,33 @@ class Vector extends Var {
             double[] result = new double[this.value.length];
             System.arraycopy(this.value, 0, result, 0, result.length);
             for (int i = 0; i < result.length; i++) {
-                result[i] -= scalarValue;
+                result[i] *= scalarValue;
             }
             return new Vector(result);
         }
 
         if (other instanceof Vector && this.value.length == ((Vector) other).value.length){
-            double[] resultVector = new double[this.value.length];
-            System.arraycopy(this.value, 0, resultVector, 0, resultVector.length);
-            for (int i = 0; i < resultVector.length; i++){
-                resultVector[i] -= ((Vector) other).value[i];
+            double resultVector = 0;
+            //System.arraycopy(this.value, 0, resultVector, 0, resultVector.length);
+            for (int i = 0; i < this.value.length; i++){
+                resultVector += this.value[i] * ((Vector) other).value[i];
             }
-            return new Vector(resultVector);
+            return new Scalar(resultVector);
         }
         return super.mul(other);
     }
 
     @Override
     public Var div(Var other) {
+        if (other instanceof Scalar){
+            double scalarValue = ((Scalar) other).getValue();
+            double[] resultVector = new double[this.value.length];
+            System.arraycopy(this.value, 0, resultVector, 0, resultVector.length);
+            for (int i = 0; i < resultVector.length; i++){
+                resultVector[i] /= scalarValue;
+            }
+            return new Vector(resultVector);
+        }
         return super.div(other);
     }
 }
