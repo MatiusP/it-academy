@@ -173,8 +173,8 @@ class Matrix extends Var {
 
         if (other instanceof Matrix) {
             boolean isMatrixEquals = true;
-            for (int i = 0; i < this.value.length; i++) {
-                if (this.value[i].length != ((Matrix) other).value.length) {
+            for (double[] element : this.value) {
+                if (element.length != ((Matrix) other).value.length) {
                     isMatrixEquals = false;
                     break;
                 }
@@ -208,11 +208,10 @@ class Matrix extends Var {
         if (other instanceof Scalar) {
             double scalarValue = ((Scalar) other).getValue();
 
-            double[][] copyMatrix = new double[this.value.length][];
-            for (int i = 0; i < copyMatrix.length; i++) {
-                copyMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
+            double[][] resultMatrix = new double[this.value.length][];
+            for (int i = 0; i < resultMatrix.length; i++) {
+                resultMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
             }
-            double[][] resultMatrix = new double[copyMatrix.length][];
             for (int i = 0; i < resultMatrix.length; i++) {
                 for (int j = 0; j < resultMatrix[i].length; j++) {
                     resultMatrix[i][j] = scalarValue;
