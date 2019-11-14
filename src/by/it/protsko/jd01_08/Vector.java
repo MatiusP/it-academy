@@ -33,6 +33,10 @@ class Vector extends Var {
         return Arrays.toString(value).replace('[', '{').replace(']', '}');
     }
 
+    public double[] getValue() {
+        return value;
+    }
+
     @Override
     public Var add(Var other) {
         if (other instanceof Scalar) {

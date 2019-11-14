@@ -97,19 +97,129 @@ class Matrix extends Var {
         return super.add(other);
     }
 
-
     @Override
     public Var sub(Var other) {
+        if (other instanceof Scalar) {
+            double scalarValue = ((Scalar) other).getValue();
+            double[][] resultMatrix = new double[this.value.length][];
+            for (int i = 0; i < resultMatrix.length; i++) {
+                resultMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
+            }
+            for (int i = 0; i < resultMatrix.length; i++) {
+                for (int j = 0; j < resultMatrix[i].length; j++) {
+                    resultMatrix[i][j] -= scalarValue;
+                }
+            }
+            return new Matrix(resultMatrix);
+        }
+
+        if (other instanceof Matrix && this.value.length == ((Matrix) other).value.length) {
+            boolean isMatrixEquals = true;
+            for (int i = 0; i < this.value.length; i++) {
+                if (this.value[i].length != ((Matrix) other).value[i].length) {
+                    isMatrixEquals = false;
+                    break;
+                }
+            }
+            if (isMatrixEquals) {
+                double[][] resultMatrix = new double[this.value.length][];
+                for (int i = 0; i < resultMatrix.length; i++) {
+                    resultMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
+                }
+                for (int i = 0; i < resultMatrix.length; i++) {
+                    for (int j = 0; j < resultMatrix[i].length; j++) {
+                        resultMatrix[i][j] -= ((Matrix) other).value[i][j];
+                    }
+                }
+                return new Matrix(resultMatrix);
+            }
+        }
         return super.sub(other);
     }
 
+
     @Override
     public Var mul(Var other) {
+        if (other instanceof Scalar) {
+            double scalarValue = ((Scalar) other).getValue();
+            double[][] resultMatrix = new double[this.value.length][];
+            for (int i = 0; i < resultMatrix.length; i++) {
+                resultMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
+            }
+            for (int i = 0; i < resultMatrix.length; i++) {
+                for (int j = 0; j < resultMatrix[i].length; j++) {
+                    resultMatrix[i][j] *= scalarValue;
+                }
+            }
+            return new Matrix(resultMatrix);
+        }
+
+        if (other instanceof Vector && this.value[0].length == ((Vector) other).getValue().length) {
+            double[][] newThisMatrix = new double[this.value.length][];
+            for (int i = 0; i < newThisMatrix.length; i++) {
+                newThisMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
+            }
+            double[] newVector = new double[((Vector) other).getValue().length];
+            System.arraycopy(((Vector) other).getValue(), 0, newVector, 0, ((Vector) other).getValue().length);
+
+            double[] resultMatrix = new double[newThisMatrix.length];
+            for (int i = 0; i < resultMatrix.length; i++) {
+                for (int j = 0; j < newVector.length; j++) {
+                    resultMatrix[i] += newThisMatrix[i][j] * newVector[j];
+                }
+            }
+            return new Vector(resultMatrix);
+        }
+
+        if (other instanceof Matrix) {
+            boolean isMatrixEquals = true;
+            for (int i = 0; i < this.value.length; i++) {
+                if (this.value[i].length != ((Matrix) other).value.length) {
+                    isMatrixEquals = false;
+                    break;
+                }
+            }
+            if (isMatrixEquals) {
+                double[][] newThisMatrix = new double[this.value.length][];
+                for (int i = 0; i < newThisMatrix.length; i++) {
+                    newThisMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
+                }
+                double[][] newOtherMatrix = new double[((Matrix) other).value.length][];
+                for (int i = 0; i < newOtherMatrix.length; i++) {
+                    newOtherMatrix[i] = Arrays.copyOf(((Matrix) other).value[i], ((Matrix) other).value[i].length);
+                }
+                double[][] resultMatrix = new double[newThisMatrix.length][newOtherMatrix[0].length];
+
+                for (int i = 0; i < newOtherMatrix.length; i++) {
+                    for (int j = 0; j < newThisMatrix[0].length; j++) {
+                        for (int k = 0; k < newThisMatrix.length; k++) {
+                            resultMatrix[i][j] = resultMatrix[i][j] + newThisMatrix[i][k] * newOtherMatrix[k][j];
+                        }
+                    }
+                }
+                return new Matrix(resultMatrix);
+            }
+        }
         return super.mul(other);
     }
 
     @Override
     public Var div(Var other) {
+        if (other instanceof Scalar) {
+            double scalarValue = ((Scalar) other).getValue();
+
+            double[][] copyMatrix = new double[this.value.length][];
+            for (int i = 0; i < copyMatrix.length; i++) {
+                copyMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
+            }
+            double[][] resultMatrix = new double[copyMatrix.length][];
+            for (int i = 0; i < resultMatrix.length; i++) {
+                for (int j = 0; j < resultMatrix[i].length; j++) {
+                    resultMatrix[i][j] = scalarValue;
+                }
+            }
+            return new Matrix(resultMatrix);
+        }
         return super.div(other);
     }
 }
