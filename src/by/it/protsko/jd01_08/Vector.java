@@ -32,4 +32,76 @@ class Vector extends Var {
     public String toString() {
         return Arrays.toString(value).replace('[', '{').replace(']', '}');
     }
+
+    @Override
+    public Var add(Var other) {
+        if (other instanceof Scalar) {
+            double scalarValue = ((Scalar) other).getValue();
+            double[] result = new double[value.length];
+            System.arraycopy(this.value, 0, result, 0, result.length);
+            for (int i = 0; i < result.length; i++) {
+                result[i] += scalarValue;
+            }
+            return new Vector(result);
+        }
+        if (other instanceof Vector && value.length == ((Vector) other).value.length) {
+            double[] result = new double[value.length];
+            System.arraycopy(value, 0, result, 0, result.length);
+            for (int i = 0; i < result.length; i++) {
+                result[i] += ((Vector) other).value[i];
+            }
+            return new Vector(result);
+        }
+        return super.add(other);
+    }
+
+    @Override
+    public Var sub(Var other) {
+        if (other instanceof Scalar) {
+            double scalarValue = ((Scalar) other).getValue();
+            double[] result = new double[value.length];
+            System.arraycopy(value, 0, result, 0, result.length);
+            for (int i = 0; i < result.length; i++) {
+                result[i] -= scalarValue;
+            }
+            return new Vector(result);
+        }
+        if (other instanceof Vector && this.value.length == ((Vector) other).value.length) {
+            double[] result = new double[this.value.length];
+            System.arraycopy(value, 0, result, 0, result.length);
+            for (int i = 0; i < result.length; i++) {
+                result[i] -= ((Vector) other).value[i];
+            }
+            return new Vector(result);
+        }
+        return super.sub(other);
+    }
+
+    @Override
+    public Var mul(Var other) {
+        if (other instanceof Scalar) {
+            double scalarValue = ((Scalar) other).getValue();
+            double[] result = new double[this.value.length];
+            System.arraycopy(this.value, 0, result, 0, result.length);
+            for (int i = 0; i < result.length; i++) {
+                result[i] -= scalarValue;
+            }
+            return new Vector(result);
+        }
+
+        if (other instanceof Vector && this.value.length == ((Vector) other).value.length){
+            double[] resultVector = new double[this.value.length];
+            System.arraycopy(this.value, 0, resultVector, 0, resultVector.length);
+            for (int i = 0; i < resultVector.length; i++){
+                resultVector[i] -= ((Vector) other).value[i];
+            }
+            return new Vector(resultVector);
+        }
+        return super.mul(other);
+    }
+
+    @Override
+    public Var div(Var other) {
+        return super.div(other);
+    }
 }
