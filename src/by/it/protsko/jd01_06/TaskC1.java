@@ -7,10 +7,14 @@ public class TaskC1 {
 
     public static void main(String[] args) {
         String poem = Poem.text;
-        String[] textArray = Poem.text.split("\\n");
-        Pattern pattern = Pattern.compile("[а-яёА-ЯЁ,\\-!.]{1} ");
+        System.out.println(formatText(poem));
+    }
+
+    private static String formatText(String text) {
+        String[] textArray = text.split("\\n");
+        Pattern pattern = Pattern.compile("[а-яёА-ЯЁ,\\-!.] ");
         Matcher matcher;
-        StringBuilder text = new StringBuilder();
+        StringBuilder formatText = new StringBuilder();
 
         int maxSentenceLength = 0;
         for (String sentence : textArray) {
@@ -18,11 +22,9 @@ public class TaskC1 {
                 maxSentenceLength = sentence.length();
             }
         }
-
-        for (int i = 0; i < textArray.length; i++) {
-            StringBuilder sentence = new StringBuilder(textArray[i]);
-
-            int needConcatSpace = maxSentenceLength - textArray[i].length();
+        for (String element : textArray) {
+            StringBuilder sentence = new StringBuilder(element);
+            int needConcatSpace = maxSentenceLength - element.length();
 
             if (sentence.length() < maxSentenceLength) {
                 matcher = pattern.matcher(sentence);
@@ -30,21 +32,17 @@ public class TaskC1 {
                     if (matcher.find()) {
                         sentence.insert(matcher.start() + 1, ' ');
                         needConcatSpace--;
-
                     } else {
                         matcher.reset();
                     }
                 } while (needConcatSpace != 0);
-                text.append(sentence + "\n");
-                //text.append("\n");
+                formatText.append(sentence);
+                formatText.append('\n');
             } else {
-                continue;
+                formatText.append(sentence);
+                formatText.append('\n');
             }
         }
-
-        poem = text.toString();
-        System.out.println(poem);
+        return formatText.toString();
     }
-
-
 }
