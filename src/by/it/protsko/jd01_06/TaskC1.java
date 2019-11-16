@@ -12,7 +12,7 @@ public class TaskC1 {
 
     private static String formatText(String text) {
         String[] textArray = text.split("\\n");
-        Pattern pattern = Pattern.compile("[а-яёА-ЯЁ,\\-!.] ");
+        Pattern pattern = Pattern.compile(" [-.,а-яёА-ЯЁ:!]");
         Matcher matcher;
         StringBuilder formatText = new StringBuilder();
 
@@ -22,25 +22,26 @@ public class TaskC1 {
                 maxSentenceLength = sentence.length();
             }
         }
+
         for (String element : textArray) {
             StringBuilder sentence = new StringBuilder(element);
             int needConcatSpace = maxSentenceLength - element.length();
 
             if (sentence.length() < maxSentenceLength) {
                 matcher = pattern.matcher(sentence);
+                int pos = 0;
                 do {
-                    if (matcher.find()) {
-                        sentence.insert(matcher.start() + 1, ' ');
+                    if (matcher.find(pos)) {
+                        sentence.insert(matcher.start() + 1, " ");
+                        pos = matcher.end() + 1;
                         needConcatSpace--;
                     } else {
-                        matcher.reset();
+                        pos = 0;
                     }
                 } while (needConcatSpace != 0);
-                formatText.append(sentence);
-                formatText.append('\n');
+                formatText.append(sentence).append('\n');
             } else {
-                formatText.append(sentence);
-                formatText.append('\n');
+                formatText.append(sentence).append('\n');
             }
         }
         return formatText.toString();
