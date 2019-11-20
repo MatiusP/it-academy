@@ -6,7 +6,7 @@ class Matrix extends Var {
 
     private double[][] value;
 
-    private Matrix(double[][] value) {
+    Matrix(double[][] value) {
         this.value = copyTwoDimensionalArrays(value);
     }
 

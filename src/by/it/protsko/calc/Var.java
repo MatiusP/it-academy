@@ -1,6 +1,14 @@
 package by.it.protsko.calc;
 
 abstract class Var implements Operation {
+
+//    private static Map<String, Var> vars = new HashMap<>();
+//
+//    static void set(String name, Var var){
+//        vars.put(name, var);
+//
+//    }
+
     @Override
     public Var add(Var other) {
         System.out.printf("Сложение %s + %s невозможно\n", this, other);
