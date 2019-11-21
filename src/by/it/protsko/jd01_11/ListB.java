@@ -2,8 +2,7 @@ package by.it.protsko.jd01_11;
 
 import java.util.*;
 
-public class ListA<T> implements List<T> {
-
+public class ListB<T> implements List<T> {
     private T[] elementsArray = (T[]) new Object[1];
     private int size = 0;
 
@@ -26,7 +25,7 @@ public class ListA<T> implements List<T> {
     @Override
     public boolean remove(Object o) {
         for (int i = 0; i < size; i++) {
-            if (elementsArray[i].equals(o)) {
+            if (o.equals(elementsArray[i])) {
                 remove(i);
                 return true;
             }
@@ -65,11 +64,13 @@ public class ListA<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        List<T> listCollection = (List<T>) c;
-
-
-        return false;
+        Object[] collectionToArray = c.toArray();
+        for (int i = 0; i < collectionToArray.length; i++) {
+            add((T) collectionToArray[i]);
+        }
+        return true;
     }
+
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
@@ -83,6 +84,11 @@ public class ListA<T> implements List<T> {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return false;
     }
 
     @Override
@@ -101,11 +107,6 @@ public class ListA<T> implements List<T> {
 
 
     //Stubs
-
-    @Override
-    public boolean contains(Object o) {
-        return false;
-    }
 
     @Override
     public Iterator<T> iterator() {
