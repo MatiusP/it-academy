@@ -3,103 +3,141 @@ package by.it.protsko.jd01_11;
 import java.util.*;
 
 public class ListB<T> implements List<T> {
-    private T[] elementsArray = (T[]) new Object[1];
+
+    private T[] listElements = (T[]) new Object[11];
     private int size = 0;
 
-    @Override
+    @Override                       ///////////////////////////////
     public boolean add(T element) {
-        if (elementsArray.length <= size) {
-            elementsArray = Arrays.copyOf(elementsArray, elementsArray.length * 3 / 2 + 1);
+        if (listElements.length <= size) {
+            listElements = Arrays.copyOf(listElements, (listElements.length * 3) / 2 + 1);
         }
-        elementsArray[size++] = element;
+        listElements[size++] = element;
         return true;
     }
 
-    @Override
-    public T remove(int index) {
-        T removeElement = elementsArray[index];
-        System.arraycopy(elementsArray, index + 1, elementsArray, index, (--size - index));
-        return removeElement;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (o.equals(elementsArray[i])) {
-                remove(i);
-                return true;
-            }
+    //@Override                    ///////////////////////////////
+    public boolean addAll(Collection<? extends T> list) {
+        Object[] listToArray = list.toArray();
+        for (Object arrayElements : listToArray) {
+            add((T) arrayElements);
         }
-        return false;
+        return listToArray.length != 0;
     }
 
-    @Override
-    public T get(int index) {
-        return elementsArray[index];
+    @Override                       ///////////////////////////////
+    public void add(int index, T element) {
+        if (listElements.length <= size) {
+            listElements = Arrays.copyOf(listElements, (listElements.length * 3) / 2 + 1);
+        }
+        System.arraycopy(listElements, index, listElements, index + 1, (++size - index));
+        listElements[index] = element;
+
     }
 
-    @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public T set(int index, T element) {
-        if (index < size) {
-            T oldElement = elementsArray[index];
-            elementsArray[index] = element;
-            return oldElement;
+    @Override                       ///////////////////////////////
+    public T remove(int index) {
+        if (index >= 0 && index < size) {
+            T removingElement = listElements[index];
+            System.arraycopy(listElements, index + 1, listElements, index, (--size - index));
+            return removingElement;
         }
         return null;
     }
 
-    @Override
-    public void add(int index, T element) {
-        if (elementsArray.length <= size) {
-            elementsArray = Arrays.copyOf(elementsArray, elementsArray.length + 1);
+    @Override                       ///////////////////////////////
+    public boolean remove(Object o) {
+        int indexRemovingObject = indexOf(o);
+        if (indexRemovingObject > -1) {
+            remove(indexRemovingObject);
         }
-        System.arraycopy(elementsArray, index, elementsArray, index + 1, (++size - index));
-        set(index, element);
+        return indexRemovingObject > -1;
     }
 
-    @Override
-    public boolean addAll(Collection<? extends T> c) {
-        Object[] collectionToArray = c.toArray();
-        for (int i = 0; i < collectionToArray.length; i++) {
-            add((T) collectionToArray[i]);
-        }
-        return true;
-    }
-
-
-    @Override
-    public boolean addAll(int index, Collection<? extends T> c) {
-        return false;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        if (size == 0) {
-            return true;
+    @Override                       ///////////////////////////////
+    public int indexOf(Object object) {
+        if (object == null) {
+            for (int index = 0; index < size; index++) {
+                if (listElements[index] == null) {
+                    return index;
+                }
+            }
         } else {
-            return false;
+            for (int index = 0; index < size; index++) {
+                if (object.equals(listElements[index])) {
+                    return index;
+                }
+            }
+        }
+        return -1;
+    }
+
+    @Override                       ///////////////////////////////
+    public int lastIndexOf(Object object) {
+        if (object == null) {
+            for (int index = size - 1; index == 0; index--) {
+                if (listElements[index] == null) {
+                    return index;
+                }
+            }
+        } else {
+            for (int index = size - 1; index >= 0; index--) {
+                if (object.equals(listElements[index])) {
+                    return index;
+                }
+            }
+        }
+        return -1;
+    }
+
+    @Override                       ///////////////////////////////
+    public T get(int index) {
+        if (index >= 0 && index < size) {
+            return listElements[index];
+        }
+        return null;
+    }
+
+    @Override                       ///////////////////////////////
+    public int size() {
+        return size;
+    }
+
+    @Override                       ///////////////////////////////
+    public boolean isEmpty() {
+
+        return size == 0;
+    }
+
+    @Override                       ///////////////////////////////
+    public boolean contains(Object o) {
+        return indexOf(o) > -1;
+    }
+
+    @Override                       ///////////////////////////////
+    public void clear() {
+        for (int index = 0; index < size; size--) {
+            listElements[index] = null;
         }
     }
 
-    @Override
-    public boolean contains(Object o) {
-        return false;
+    @Override                       ///////////////////////////////
+    public T set(int index, T element) {
+        if (index >= 0 && index < size) {
+            T oldValue = listElements[index];
+            listElements[index] = element;
+            return oldValue;
+        }
+        return null;
     }
 
-    @Override
+    @Override                       ///////////////////////////////
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < size; i++) {
-            if (i == 0) {
-                sb.append(elementsArray[i]);
-            } else {
-                sb.append(", ").append(elementsArray[i]);
-            }
+        String delimiter = "";
+        for (int index = 0; index < size; index++) {
+            sb.append(delimiter).append(listElements[index]);
+            delimiter = ", ";
         }
         sb.append("]");
         return sb.toString();
@@ -107,7 +145,6 @@ public class ListB<T> implements List<T> {
 
 
     //Stubs
-
     @Override
     public Iterator<T> iterator() {
         return null;
@@ -139,21 +176,6 @@ public class ListB<T> implements List<T> {
     }
 
     @Override
-    public void clear() {
-
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        return 0;
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        return 0;
-    }
-
-    @Override
     public ListIterator<T> listIterator() {
         return null;
     }
@@ -166,5 +188,10 @@ public class ListB<T> implements List<T> {
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
         return null;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends T> c) {
+        return false;
     }
 }

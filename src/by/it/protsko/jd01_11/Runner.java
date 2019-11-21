@@ -7,41 +7,71 @@ public class Runner {
 
     public static void main(String[] args) {
 
-        List javaList = new ArrayList();
-        javaList.add("hello");
-        javaList.set(0, "hi");
-
-
-
+        List<Integer> javaList = new ArrayList<>();
         ListA<Integer> listA = new ListA<>();
-        ListB<Double> listB = new ListB<>();
 
-        listA.add(10);
-        listA.add(20);
-        listA.add(30);
-        listA.add(40);
-        listA.add(50);
-        listA.add(60);
-        listA.add(70);
-        System.out.println(listA);
-        listA.remove(0);
-        System.out.println(listA);
-        listA.remove((Object) 50);
-        listA.set(2, 15);
-        System.out.println(listA);
 
-        listB.add(100.0);
-        listB.add(200.0);
-        listB.add(300.0);
-        listB.add(400.0);
-        listB.add(500.0);
-        listB.add(600.0);
-        listB.add(700.0);
-        System.out.println(listB);
-        listB.remove((Object) 50.0);
-        listB.set(2, 150.0);
-        System.out.println(listB);
-        listB.addAll(listB);
-        System.out.println(listB);
+        javaList.add(10);   listA.add(10);
+        javaList.add(20);   listA.add(20);
+        javaList.add(30);   listA.add(30);
+        javaList.add(40);   listA.add(40);
+        javaList.add(50);   listA.add(50);
+        javaList.add(40);   listA.add(40);
+        javaList.add(40);   listA.add(40);
+        javaList.add(50);   listA.add(50);
+
+        System.out.println("JAVA: " +javaList);
+        System.out.println("LIST: " +listA);
+
+        javaList.add(2,25);   listA.add(2,25);
+        javaList.add(4,45);   listA.add(4,45);
+
+        System.out.println("JAVA: " +javaList);
+        System.out.println("LIST: " +listA);
+
+        javaList.remove(2);   listA.remove(2);
+        javaList.remove(2);   listA.remove(2);
+
+        System.out.println("JAVA: " +javaList);
+        System.out.println("LIST: " +listA);
+
+        javaList.remove((Object) 50);   listA.remove((Object) 50);
+
+        System.out.println("JAVA: " +javaList);
+        System.out.println("LIST: " +listA);
+
+        System.out.println("JAVA: " +javaList.get(3));
+        System.out.println("LIST: " +listA.get(3));
+
+        System.out.println("JAVA: " +javaList.size());
+        System.out.println("LIST: " +listA.size());
+
+        System.out.println("JAVA: " +javaList.isEmpty());
+        System.out.println("LIST: " +listA.isEmpty());
+
+        System.out.println("JAVA: " +javaList.contains((Object)20));
+        System.out.println("LIST: " +listA.contains((Object)20));
+
+        System.out.println("JAVA: " +javaList.contains((Object)20));
+        System.out.println("LIST: " +listA.contains((Object)20));
+
+        javaList.set(1, 100);   listA.set(1,100);
+
+        System.out.println("JAVA: " +javaList);
+        System.out.println("LIST: " +listA);
+
+        System.out.println("JAVA: " +javaList.lastIndexOf((Object)40));
+        System.out.println("LIST: " +listA.lastIndexOf((Object)40));
+
+        javaList.addAll(javaList);   listA.addAll(listA);
+
+        System.out.println("JAVA: " +javaList + javaList.size());
+        System.out.println("LIST: " +listA + listA.size());
+
+        javaList.clear();      listA.clear();
+
+        System.out.println("JAVA: " +javaList + javaList.size());
+        System.out.println("LIST: " +listA + listA.size());
+
     }
 }
