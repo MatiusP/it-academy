@@ -9,11 +9,13 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
 
     Buyer(int number) {
         super("Buyer №" + number);
+        Dispather.countBuyerInMarket++;
     }
 
     Buyer(int number, boolean isPensioner) {
         super("Buyer №" + number + " (pensioner)");
         this.pensioner = isPensioner;
+        Dispather.countBuyerInMarket++;
     }
 
     @Override
@@ -27,7 +29,7 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
     @Override
     public void enterToMarket() {
         System.out.println(this.getName() + " entered to the market");
-        ++Dispather.countBuyerInMarket;
+
     }
 
     @Override
