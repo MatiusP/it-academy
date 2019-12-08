@@ -76,8 +76,9 @@ public class Test_jd01_15 {
                 "cd jd01_15\n" +
                 "dir\n" +
                 "end\n")
-                .include("_tasks_")
-                .include("Test_jd01_15.java");
+//                .include("_tasks_")
+//                .include("Test_jd01_15.java")
+                ;
     }
 
     private String getText(String fn) throws Exception {

@@ -28,7 +28,7 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
 
     @Override
     public void enterToMarket() {
-        System.out.println(this.getName() + " entered to the market");
+        System.out.println(this.getName() + " entered to market");
 
     }
 
@@ -40,7 +40,7 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
 
     @Override
     public void takeBasket() {
-        System.out.println(this.getName() + " taked basket");
+        System.out.println(this.getName() + " taked a basket");
     }
 
     @Override
@@ -69,6 +69,6 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
     @Override
     public void goOut() {
         System.out.println(this.getName() + " leaved the market");
-        --Dispather.countBuyerInMarket;
+        Dispather.countBuyerInMarket--;
     }
 }
