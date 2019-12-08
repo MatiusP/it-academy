@@ -1,44 +1,76 @@
 package by.it.protsko.jd01_15;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 
 class TaskB {
+    private static StringBuilder sb = new StringBuilder();
+    private static long endCommit = 0;
 
-    public static void main(String[] args) {//start program
-         /*
-        wr have to write file's data to file and cut comment's
-         */
-
-        StringBuilder sb = new StringBuilder();
-        sb = printClassToStringBuilder(sb, getFileName(TaskB.class));
+    public static void main(String[] args) {    //start program
+        printClassToStringBuilder(sb, getFileName(TaskB.class));
         System.out.println(sb.toString());
+        printStringBuilderToFile(sb);
     }
 
-    /*
-    it's just comment's block
-     */
 
-    //Открываем и используем файл с произвольным доступом
-    private static StringBuilder printClassToStringBuilder(StringBuilder sb, String fileName) {
-        try (RandomAccessFile file = new RandomAccessFile(fileName, "rw")) {
-            char[] buffer = new char[(int) file.length()];
-            while (file.read() != -1) {
-                for (char ch : buffer) {
-                    ch = (char) file.read();
-                    sb.append(ch);
+    /*
+    null comment number 2
+     */
+    private static void printStringBuilderToFile(StringBuilder sb) { //print file data to .txt file
+        try (PrintWriter out = new PrintWriter(getFileName(TaskB.class).replaceAll(".java", ".txt"))) {
+            out.print(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param sb:       stringBuilder
+     * @param fileName: it's our fileName
+     * @return: nothing
+     */
+    private static void printClassToStringBuilder(StringBuilder sb, String fileName) {
+        try (RandomAccessFile file = new RandomAccessFile(getFileName(TaskB.class), "r")) {
+            for (long index = 0; index < file.length(); index++) {
+                char ch = (char) file.read();
+                long charPosition = file.getFilePointer();
+
+                if (ch == '/' && ((char) file.read() == '/')) {
+                    for (int i = (int) file.getFilePointer(); i < file.length(); i++) {
+                        if (file.read() == '\n') {
+                            endCommit = file.getFilePointer() - 1;
+                            break;
+                        }
+                    }
+                    file.seek(endCommit);
+                    index = file.getFilePointer() - 1;
+                } else {
+                    file.seek(charPosition);
+                    if (ch == '/' && ((char) file.read() == '*')) {
+                        for (int i = (int) file.getFilePointer(); i < file.length(); i++) {
+
+                            char ch1 = (char) file.read();
+                            if (ch1 == '*' && (char) file.read() == '/') {
+                                endCommit = file.getFilePointer();
+                                break;
+                            }
+                        }
+                        file.seek(endCommit);
+                        index = file.getFilePointer() - 1;
+
+                    } else {
+                        file.seek(charPosition);
+                        sb.append(ch);
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return sb;
     }
 
-    /**
-     * @param: this is our main class
-     * @return: fileName
+    /*
+    it's just null comment
      */
     private static String getFileName(Class<TaskB> bClass) {
         return System.getProperty("user.dir")
