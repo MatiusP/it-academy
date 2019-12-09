@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 class Parser {
 
-    Var calc(String expression) {
+    Var calc(String expression) throws CalcException {
 
         String[] membersOfExpression = expression.replaceAll(" ", "").split(Patterns.OPERATIONS);
         if (membersOfExpression.length == 1) {
@@ -35,10 +35,8 @@ class Parser {
                     return variables[count - 1].mul(variables[count]);
                 case "/":
                     return variables[count - 1].div(variables[count]);
-                default:
-                    return null;
             }
         }
-        return null;
+        throw new CalcException("Expression is not correct");
     }
 }

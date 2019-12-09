@@ -9,27 +9,23 @@ abstract class Var implements Operation {
     static Map<String, Var> vars = new HashMap<>();
 
     @Override
-    public Var add(Var other) {
-        System.out.printf("Сложение %s + %s невозможно\n", this, other);
-        return null;
+    public Var add(Var other) throws CalcException {
+        throw new CalcException(String.format("Сложение %s + %s невозможно\n", this, other));
     }
 
     @Override
-    public Var sub(Var other) {
-        System.out.printf("Вычитание %s - %s невозможно\n", this, other);
-        return null;
+    public Var sub(Var other) throws CalcException {
+        throw new CalcException(String.format("Вычитание %s - %s невозможно\n", this, other));
     }
 
     @Override
-    public Var mul(Var other) {
-        System.out.printf("Умножение %s * %s невозможно\n", this, other);
-        return null;
+    public Var mul(Var other) throws CalcException {
+        throw new CalcException(String.format("Умножение %s * %s невозможно\n", this, other));
     }
 
     @Override
-    public Var div(Var other) {
-        System.out.printf("Деление %s / %s невозможно\n", this, other);
-        return null;
+    public Var div(Var other) throws CalcException {
+        throw new CalcException(String.format("Деление %s / %s невозможно\n", this, other));
     }
 
     static void set(String name, Var var) {
@@ -40,7 +36,7 @@ abstract class Var implements Operation {
         return new TreeMap<>(vars);
     }
 
-    static Var createVar(String stringVar) {
+    static Var createVar(String stringVar) throws CalcException {
         if (stringVar.matches(Patterns.SCALAR)) {
             return new Scalar(stringVar);
         } else {
@@ -56,6 +52,6 @@ abstract class Var implements Operation {
                 }
             }
         }
-        return null;
+        throw new CalcException("Var didn't create");
     }
 }

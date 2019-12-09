@@ -58,7 +58,7 @@ class Matrix extends Var {
     }
 
     @Override
-    public Var add(Var other) {
+    public Var add(Var other) throws CalcException {
         if (other instanceof Scalar) {
             double scalarValue = ((Scalar) other).getValue();
             double[][] resultMatrix = new double[this.value.length][];
@@ -73,7 +73,14 @@ class Matrix extends Var {
             return new Matrix(resultMatrix);
         }
 
-        if (other instanceof Matrix && this.value.length == ((Matrix) other).value.length) {
+        if (other instanceof Vector) {
+            throw new CalcException("Невозможно прибавить вектор к матрице");
+        }
+
+        if (other instanceof Matrix) {
+            if (this.value.length != ((Matrix) other).value.length) {
+                throw new CalcException("Сложение матриц невозможно - размеры не совпадают");
+            }
             boolean isMatrixEquals = true;
             for (int i = 0; i < this.value.length; i++) {
                 if (this.value[i].length != ((Matrix) other).value[i].length) {
@@ -81,7 +88,9 @@ class Matrix extends Var {
                     break;
                 }
             }
-            if (isMatrixEquals) {
+            if (!isMatrixEquals) {
+                throw new CalcException("Сложение матриц невозможно - размеры не совпадают");
+            } else {
                 double[][] resultMatrix = new double[this.value.length][];
                 for (int i = 0; i < resultMatrix.length; i++) {
                     resultMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
@@ -98,7 +107,7 @@ class Matrix extends Var {
     }
 
     @Override
-    public Var sub(Var other) {
+    public Var sub(Var other) throws CalcException {
         if (other instanceof Scalar) {
             double scalarValue = ((Scalar) other).getValue();
             double[][] resultMatrix = new double[this.value.length][];
@@ -113,7 +122,14 @@ class Matrix extends Var {
             return new Matrix(resultMatrix);
         }
 
-        if (other instanceof Matrix && this.value.length == ((Matrix) other).value.length) {
+        if (other instanceof Vector) {
+            throw new CalcException("Невозможно вычесть вектор из матрицы");
+        }
+
+        if (other instanceof Matrix) {
+            if (this.value.length != ((Matrix) other).value.length) {
+                throw new CalcException("Вычитание матриц невозможно - размеры не совпадают");
+            }
             boolean isMatrixEquals = true;
             for (int i = 0; i < this.value.length; i++) {
                 if (this.value[i].length != ((Matrix) other).value[i].length) {
@@ -121,7 +137,9 @@ class Matrix extends Var {
                     break;
                 }
             }
-            if (isMatrixEquals) {
+            if (!isMatrixEquals) {
+                throw new CalcException("Сложение матриц невозможно - размеры не совпадают");
+            } else {
                 double[][] resultMatrix = new double[this.value.length][];
                 for (int i = 0; i < resultMatrix.length; i++) {
                     resultMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
@@ -139,7 +157,7 @@ class Matrix extends Var {
 
 
     @Override
-    public Var mul(Var other) {
+    public Var mul(Var other) throws CalcException {
         if (other instanceof Scalar) {
             double scalarValue = ((Scalar) other).getValue();
             double[][] resultMatrix = new double[this.value.length][];
@@ -154,24 +172,32 @@ class Matrix extends Var {
             return new Matrix(resultMatrix);
         }
 
-        if (other instanceof Vector && this.value[0].length == ((Vector) other).getValue().length) {
-            double[][] newThisMatrix = new double[this.value.length][];
-            for (int i = 0; i < newThisMatrix.length; i++) {
-                newThisMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
-            }
-            double[] newVector = new double[((Vector) other).getValue().length];
-            System.arraycopy(((Vector) other).getValue(), 0, newVector, 0, ((Vector) other).getValue().length);
-
-            double[] resultMatrix = new double[newThisMatrix.length];
-            for (int i = 0; i < resultMatrix.length; i++) {
-                for (int j = 0; j < newVector.length; j++) {
-                    resultMatrix[i] += newThisMatrix[i][j] * newVector[j];
+        if (other instanceof Vector) {
+            if (this.value[0].length != ((Vector) other).getValue().length) {
+                throw new CalcException("Умножение матрицы на вектор невозможно - не совпадают размеры");
+            } else {
+                double[][] newThisMatrix = new double[this.value.length][];
+                for (int i = 0; i < newThisMatrix.length; i++) {
+                    newThisMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
                 }
+                double[] newVector = new double[((Vector) other).getValue().length];
+                System.arraycopy(((Vector) other).getValue(), 0, newVector, 0, ((Vector) other).getValue().length);
+
+                double[] resultMatrix = new double[newThisMatrix.length];
+                for (int i = 0; i < resultMatrix.length; i++) {
+                    for (int j = 0; j < newVector.length; j++) {
+                        resultMatrix[i] += newThisMatrix[i][j] * newVector[j];
+                    }
+                }
+                return new Vector(resultMatrix);
             }
-            return new Vector(resultMatrix);
         }
 
         if (other instanceof Matrix) {
+            if (this.value.length != ((Matrix) other).value.length) {
+                throw new CalcException("Умножение матриц невозможно - размеры не совпадают");
+            }
+
             boolean isMatrixEquals = true;
             for (double[] element : this.value) {
                 if (element.length != ((Matrix) other).value.length) {
@@ -179,7 +205,9 @@ class Matrix extends Var {
                     break;
                 }
             }
-            if (isMatrixEquals) {
+            if (!isMatrixEquals) {
+                throw new CalcException("Умножение матриц невозможно - размеры не совпадают");
+            } else {
                 double[][] newThisMatrix = new double[this.value.length][];
                 for (int i = 0; i < newThisMatrix.length; i++) {
                     newThisMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
@@ -204,20 +232,23 @@ class Matrix extends Var {
     }
 
     @Override
-    public Var div(Var other) {
+    public Var div(Var other) throws CalcException {
         if (other instanceof Scalar) {
             double scalarValue = ((Scalar) other).getValue();
-
-            double[][] resultMatrix = new double[this.value.length][];
-            for (int i = 0; i < resultMatrix.length; i++) {
-                resultMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
-            }
-            for (int i = 0; i < resultMatrix.length; i++) {
-                for (int j = 0; j < resultMatrix[i].length; j++) {
-                    resultMatrix[i][j] = scalarValue;
+            if (scalarValue == 0) {
+                throw new CalcException("Деление на ноль");
+            } else {
+                double[][] resultMatrix = new double[this.value.length][];
+                for (int i = 0; i < resultMatrix.length; i++) {
+                    resultMatrix[i] = Arrays.copyOf(this.value[i], this.value[i].length);
                 }
+                for (int i = 0; i < resultMatrix.length; i++) {
+                    for (int j = 0; j < resultMatrix[i].length; j++) {
+                        resultMatrix[i][j] = scalarValue;
+                    }
+                }
+                return new Matrix(resultMatrix);
             }
-            return new Matrix(resultMatrix);
         }
         return super.div(other);
     }

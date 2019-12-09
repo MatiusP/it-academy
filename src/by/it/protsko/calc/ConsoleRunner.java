@@ -2,9 +2,9 @@ package by.it.protsko.calc;
 
 import java.util.Scanner;
 
-public class ConsoleRunner {
+class ConsoleRunner {
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         String line;
         Parser parser = new Parser();
@@ -16,8 +16,12 @@ public class ConsoleRunner {
             } else if (line.equals("sortvar")) {
                 Printer.sortVar();
             } else {
-                Var result = parser.calc(line);
-                printer.print(result);
+                try {
+                    Var result = parser.calc(line);
+                    printer.print(result);
+                } catch (CalcException e) {
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }
