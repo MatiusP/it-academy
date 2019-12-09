@@ -30,7 +30,9 @@ class Vector extends Var {
 
     @Override
     public String toString() {
-        return Arrays.toString(value).replace('[', '{').replace(']', '}');
+        return Arrays.toString(value)
+                .replace('[', '{')
+                .replace(']', '}');
     }
 
     public double[] getValue() {

@@ -9,4 +9,5 @@ interface Operation {
     Var mul(Var other);
 
     Var div(Var other);
+
 }

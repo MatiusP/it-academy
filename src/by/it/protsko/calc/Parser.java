@@ -8,6 +8,15 @@ class Parser {
     Var calc(String expression) {
 
         String[] membersOfExpression = expression.replaceAll(" ", "").split(Patterns.OPERATIONS);
+        if (membersOfExpression.length == 1) {
+            return Var.createVar(expression);
+        }
+        if (expression.contains("=")) {
+            Var rightPartExpression = Var.createVar(membersOfExpression[1]);
+            Var.set(membersOfExpression[0], rightPartExpression);
+            return rightPartExpression;
+        }
+
         Var[] variables = new Var[membersOfExpression.length];
         for (int i = 0; i < membersOfExpression.length; i++) {
             variables[i] = Var.createVar(membersOfExpression[i]);

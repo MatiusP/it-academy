@@ -8,6 +8,9 @@ class Market {
         System.out.println("Market opened!");
         List<Buyer> listBuyer = new ArrayList<>();
 
+
+        System.out.println(Thread.currentThread());
+
         for (int min = 1; min <= 2; min++) {
 
             for (int sec = 0; sec < 60; sec++) {
