@@ -79,6 +79,7 @@ abstract class Var implements Operation {
                     .collect(Collectors.toList())
             ) {
                 parser.calc(line);
+
             }
         } catch (IOException | CalcException e) {
             System.out.println("Error reading file");
