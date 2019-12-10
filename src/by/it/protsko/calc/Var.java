@@ -1,8 +1,14 @@
 package by.it.protsko.calc;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 abstract class Var implements Operation {
 
@@ -53,5 +59,39 @@ abstract class Var implements Operation {
             }
         }
         throw new CalcException("Var didn't create");
+    }
+
+    static void saveCalcVariable(){
+        try (PrintWriter writer = new PrintWriter(getFileName())) {
+            for (Map.Entry<String, Var> entry : vars.entrySet()) {
+                writer.printf("%s=%s\n", entry.getKey(), entry.getValue().toString());
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving data to file");
+        }
+    }
+
+
+    static void loadCalcVariable() {
+        try {
+            Parser parser = new Parser();
+            for (String line : Files.lines(Paths.get(getFileName()))
+                    .collect(Collectors.toList())
+            ) {
+                parser.calc(line);
+            }
+        } catch (IOException | CalcException e) {
+            System.out.println("Error reading file");
+        }
+
+    }
+
+    private static String getFileName() {
+        return System.getProperty("user.dir")
+                + File.separator + "src" + File.separator +
+                Var.class
+                        .getName()
+                        .replace(Var.class.getSimpleName(), "")
+                        .replace(".", File.separator) + "varsValue.txt";
     }
 }

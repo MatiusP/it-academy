@@ -9,6 +9,7 @@ class ConsoleRunner {
         String line;
         Parser parser = new Parser();
         Printer printer = new Printer();
+        Var.loadCalcVariable();
 
         while (!(line = sc.nextLine()).equals("end")) {
             if (line.equals("printvar")) {
@@ -19,6 +20,7 @@ class ConsoleRunner {
                 try {
                     Var result = parser.calc(line);
                     printer.print(result);
+                    Var.saveCalcVariable();
                 } catch (CalcException e) {
                     System.out.println(e.getMessage());
                 }
