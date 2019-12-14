@@ -1,5 +1,8 @@
 package by.it.protsko.calc;
 
+import by.it.protsko.calc.lang_operations.ResurceManager;
+import by.it.protsko.calc.lang_operations.VectorMessages;
+
 import java.util.Arrays;
 
 class Vector extends Var {
@@ -52,7 +55,7 @@ class Vector extends Var {
         }
         if (other instanceof Vector) {
             if (value.length != ((Vector) other).value.length) {
-                throw new CalcException("Сложение векторов невозможно - размеры не совпадают");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(VectorMessages.ERR_SUM_VECTORS));
             } else {
                 double[] result = new double[value.length];
                 System.arraycopy(value, 0, result, 0, result.length);
@@ -78,7 +81,7 @@ class Vector extends Var {
         }
         if (other instanceof Vector) {
             if (value.length != ((Vector) other).value.length) {
-                throw new CalcException("Вычитание векторов невозможно - размеры не совпадают");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(VectorMessages.ERR_SUB_VECTORS));
             } else {
                 double[] result = new double[this.value.length];
                 System.arraycopy(value, 0, result, 0, result.length);
@@ -105,7 +108,7 @@ class Vector extends Var {
 
         if (other instanceof Vector) {
             if (value.length != ((Vector) other).value.length) {
-                throw new CalcException("Умножение векторов невозможно - размеры не совпадают");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(VectorMessages.ERR_MUL_VECTORS));
             } else {
                 double resultVector = 0;
                 for (int i = 0; i < this.value.length; i++) {
@@ -122,7 +125,7 @@ class Vector extends Var {
         if (other instanceof Scalar) {
             double scalarValue = ((Scalar) other).getValue();
             if (scalarValue == 0) {
-                throw new CalcException("Деление на ноль");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(VectorMessages.ERR_DIV_ZERO));
             } else {
                 double[] resultVector = new double[this.value.length];
                 System.arraycopy(this.value, 0, resultVector, 0, resultVector.length);
@@ -134,7 +137,7 @@ class Vector extends Var {
         }
 
         if (other instanceof Vector) {
-            throw new CalcException("Операция деления векторов невозможна");
+            throw new CalcException(ResurceManager.INSTANSE.getMessage(VectorMessages.ERR_DIV_VECTORS));
         }
         return super.div(other);
     }

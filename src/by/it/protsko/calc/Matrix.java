@@ -1,5 +1,8 @@
 package by.it.protsko.calc;
 
+import by.it.protsko.calc.lang_operations.MatrixMessages;
+import by.it.protsko.calc.lang_operations.ResurceManager;
+
 import java.util.Arrays;
 
 class Matrix extends Var {
@@ -74,12 +77,12 @@ class Matrix extends Var {
         }
 
         if (other instanceof Vector) {
-            throw new CalcException("Невозможно прибавить вектор к матрице");
+            throw new CalcException(ResurceManager.INSTANSE.getMessage(MatrixMessages.ERR_SUM_MATRIX_VECTOR));
         }
 
         if (other instanceof Matrix) {
             if (this.value.length != ((Matrix) other).value.length) {
-                throw new CalcException("Сложение матриц невозможно - размеры не совпадают");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(MatrixMessages.ERR_SUM_MATRIX));
             }
             boolean isMatrixEquals = true;
             for (int i = 0; i < this.value.length; i++) {
@@ -89,7 +92,7 @@ class Matrix extends Var {
                 }
             }
             if (!isMatrixEquals) {
-                throw new CalcException("Сложение матриц невозможно - размеры не совпадают");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(MatrixMessages.ERR_SUM_MATRIX));
             } else {
                 double[][] resultMatrix = new double[this.value.length][];
                 for (int i = 0; i < resultMatrix.length; i++) {
@@ -123,12 +126,12 @@ class Matrix extends Var {
         }
 
         if (other instanceof Vector) {
-            throw new CalcException("Невозможно вычесть вектор из матрицы");
+            throw new CalcException(ResurceManager.INSTANSE.getMessage(MatrixMessages.ERR_SUB_MATRIX_VECTOR));
         }
 
         if (other instanceof Matrix) {
             if (this.value.length != ((Matrix) other).value.length) {
-                throw new CalcException("Вычитание матриц невозможно - размеры не совпадают");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(MatrixMessages.ERR_SUB_MATRIX));
             }
             boolean isMatrixEquals = true;
             for (int i = 0; i < this.value.length; i++) {
@@ -138,7 +141,7 @@ class Matrix extends Var {
                 }
             }
             if (!isMatrixEquals) {
-                throw new CalcException("Сложение матриц невозможно - размеры не совпадают");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(MatrixMessages.ERR_SUB_MATRIX));
             } else {
                 double[][] resultMatrix = new double[this.value.length][];
                 for (int i = 0; i < resultMatrix.length; i++) {
@@ -154,7 +157,6 @@ class Matrix extends Var {
         }
         return super.sub(other);
     }
-
 
     @Override
     public Var mul(Var other) throws CalcException {
@@ -174,7 +176,7 @@ class Matrix extends Var {
 
         if (other instanceof Vector) {
             if (this.value[0].length != ((Vector) other).getValue().length) {
-                throw new CalcException("Умножение матрицы на вектор невозможно - не совпадают размеры");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(MatrixMessages.ERR_MUL_MATRIX_VECTOR));
             } else {
                 double[][] newThisMatrix = new double[this.value.length][];
                 for (int i = 0; i < newThisMatrix.length; i++) {
@@ -195,7 +197,7 @@ class Matrix extends Var {
 
         if (other instanceof Matrix) {
             if (this.value.length != ((Matrix) other).value.length) {
-                throw new CalcException("Умножение матриц невозможно - размеры не совпадают");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(MatrixMessages.ERR_MUL_MATRIX));
             }
 
             boolean isMatrixEquals = true;
@@ -206,7 +208,7 @@ class Matrix extends Var {
                 }
             }
             if (!isMatrixEquals) {
-                throw new CalcException("Умножение матриц невозможно - размеры не совпадают");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(MatrixMessages.ERR_MUL_MATRIX));
             } else {
                 double[][] newThisMatrix = new double[this.value.length][];
                 for (int i = 0; i < newThisMatrix.length; i++) {
@@ -236,7 +238,7 @@ class Matrix extends Var {
         if (other instanceof Scalar) {
             double scalarValue = ((Scalar) other).getValue();
             if (scalarValue == 0) {
-                throw new CalcException("Деление на ноль");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(MatrixMessages.ERR_DIV_ZERO));
             } else {
                 double[][] resultMatrix = new double[this.value.length][];
                 for (int i = 0; i < resultMatrix.length; i++) {
@@ -244,7 +246,7 @@ class Matrix extends Var {
                 }
                 for (int i = 0; i < resultMatrix.length; i++) {
                     for (int j = 0; j < resultMatrix[i].length; j++) {
-                        resultMatrix[i][j] = scalarValue;
+                        resultMatrix[i][j] *= 1/scalarValue;
                     }
                 }
                 return new Matrix(resultMatrix);

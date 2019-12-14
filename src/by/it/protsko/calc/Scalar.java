@@ -1,5 +1,8 @@
 package by.it.protsko.calc;
 
+import by.it.protsko.calc.lang_operations.ResurceManager;
+import by.it.protsko.calc.lang_operations.ScalarMessages;
+
 class Scalar extends Var {
 
     private double value;
@@ -56,7 +59,7 @@ class Scalar extends Var {
     public Var div(Var other) throws CalcException {
         if (other instanceof Scalar) {
             if (((Scalar) other).value == 0) {
-                throw new CalcException("Деление на нoль");
+                throw new CalcException(ResurceManager.INSTANSE.getMessage(ScalarMessages.ERR_SCALAR_DIV_ZERO));
             } else {
                 return new Scalar(this.value / ((Scalar) other).value);
             }

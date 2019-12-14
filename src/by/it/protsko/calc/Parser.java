@@ -1,8 +1,13 @@
 package by.it.protsko.calc;
 
+import by.it.protsko.calc.lang_operations.ParserMessages;
+import by.it.protsko.calc.lang_operations.ResurceManager;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static by.it.protsko.calc.Var.vars;
 
 class Parser {
 
@@ -22,7 +27,7 @@ class Parser {
 
         for (int i = 0; i < operators.size(); i++) {
             String operator = operators.get(i);
-            if (operationPriority.get(operator) >= operatorPriority) {
+            if (operationPriority.get(operator) > operatorPriority) {
                 operatorPriority = operationPriority.get(operator);
                 operatorIndex = i;
             }
@@ -30,35 +35,12 @@ class Parser {
         return operatorIndex;
     }
 
-    Var calc(String expression) throws CalcException {
-        String[] membersOfExpression = expression.replaceAll(" ", "").split(Patterns.OPERATIONS);
-        if (membersOfExpression.length == 1) {
-            return Var.createVar(expression);
-        }
-
-        List<String> operatorsExpression = new ArrayList<>();
-        List<String> operandsExpression = new ArrayList<>(Arrays.asList(membersOfExpression));
-        Matcher matcher = Pattern.compile(Patterns.OPERATIONS).matcher(expression);
-        while (matcher.find()) {
-            operatorsExpression.add(matcher.group());
-        }
-
-        while (operatorsExpression.size() > 0) {
-            int indexOperation = getIndexOperation(operatorsExpression);
-            String leftOperand = operandsExpression.remove(indexOperation);
-            String rigthOperand = operandsExpression.remove(indexOperation);
-            String operation = operatorsExpression.remove(indexOperation);
-            Var operationResult = dataOperation(leftOperand, operation, rigthOperand);
-            operandsExpression.add(indexOperation, operationResult.toString());
-        }
-        return Var.createVar(operandsExpression.get(0).replaceAll(" ",""));
-    }
 
     Var dataOperation(String leftOperand, String operation, String rightOperand) throws CalcException {
         Var rightOperandValue = Var.createVar(rightOperand);
 
         if (operation.equals("=")) {
-            Var.set(leftOperand, rightOperandValue);
+            vars.put(leftOperand, rightOperandValue);
             return rightOperandValue;
         }
         Var leftOperandValue = Var.createVar(leftOperand);
@@ -75,6 +57,30 @@ class Parser {
                     return leftOperandValue.div(rightOperandValue);
             }
         }
-        throw new CalcException("Expression is not correct");
+        throw new CalcException(ResurceManager.INSTANSE.getMessage(ParserMessages.ERR_INCORR_EXPRESSION));
+    }
+
+    Var calc(String expression) throws CalcException {
+        expression = expression.replaceAll(" ", "");
+        String[] membersOfExpression = expression.split(Patterns.OPERATIONS);
+        if (membersOfExpression.length == 1) {
+            return Var.createVar(expression);
+        }
+        List<String> expressionOperands = new ArrayList<>(Arrays.asList(membersOfExpression));
+        List<String> expressionOperators = new ArrayList<>();
+        Matcher matcher = Pattern.compile(Patterns.OPERATIONS).matcher(expression);
+        while (matcher.find()) {
+            expressionOperators.add(matcher.group());
+        }
+
+        while (expressionOperators.size() > 0) {
+            int indexOperation = getIndexOperation(expressionOperators);
+            String leftOperand = expressionOperands.remove(indexOperation);
+            String rigthOperand = expressionOperands.remove(indexOperation);
+            String operation = expressionOperators.remove(indexOperation);
+            Var operationResult = dataOperation(leftOperand, operation, rigthOperand);
+            expressionOperands.add(indexOperation, operationResult.toString());
+        }
+        return Var.createVar(expressionOperands.get(0));
     }
 }
