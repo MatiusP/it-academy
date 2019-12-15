@@ -4,15 +4,15 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class QueueBuyer {
-    private static final Deque<Buyer> queue = new LinkedList<>();
+    private final static Deque<Buyer> queue = new LinkedList<>();
 
-    synchronized static void addToQueue(Buyer buyer) {
+    static void addBuyer(Buyer buyer) {
         synchronized (queue) {
             queue.addLast(buyer);
         }
     }
 
-    static Buyer pullFromQueue() {
+    static Buyer pollBuyer() {
         synchronized (queue) {
             return queue.pollFirst();
         }

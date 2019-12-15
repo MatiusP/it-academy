@@ -8,6 +8,19 @@ class Market {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Market opened!");
         List<Buyer> listBuyer = new ArrayList<>();
+        List<Thread> cashierList = new ArrayList<>();
+
+        for (int i = 1; i <= 2; i++) {
+            Cashier cashier = new Cashier(i);
+            Thread thread = new Thread(cashier);
+            cashierList.add(thread);
+            thread.start();
+        }
+
+
+
+
+
 
         while (Dispather.marketOpen()) {
             createBuyer(listBuyer);
@@ -15,6 +28,9 @@ class Market {
         }
         for (Buyer buyer : listBuyer) {
             buyer.join();
+        }
+        for (Thread thread : cashierList) {
+            thread.join();
         }
         System.out.println("\nMarket closed!");
     }

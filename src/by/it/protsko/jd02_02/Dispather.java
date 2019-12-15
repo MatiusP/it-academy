@@ -4,7 +4,8 @@ class Dispather {
     volatile static int countBuyer = 0;
     static final int speedProcess = 1000;
     static final double pensionerSpeedProcess = 1.5;
-    private final static int PLAN = 100;
+
+    private static final int PLAN = 100;
     private volatile static int countBuyerInMarket = 0;
     private volatile static int countCompleteBuyer = 0;
 
@@ -22,6 +23,6 @@ class Dispather {
     }
 
     static boolean marketClosed() {
-        return (countBuyerInMarket + countCompleteBuyer) == PLAN;
+        return countCompleteBuyer == PLAN;
     }
 }

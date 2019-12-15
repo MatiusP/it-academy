@@ -25,6 +25,7 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
         chooseGoods();
         goToQueue();
         goOut();
+        Dispather.buyerLeaveMarket();
     }
 
     @Override
@@ -70,12 +71,11 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
     @Override
     public void goOut() {
         System.out.println(this.getName() + " leaved the market");
-        Dispather.buyerLeaveMarket();
     }
 
     @Override
     public void goToQueue() {
-        QueueBuyer.addToQueue(this);
+        QueueBuyer.addBuyer(this);
         System.out.println(this.getName() + " встал в очередь.");
         synchronized (this) {
             try {
