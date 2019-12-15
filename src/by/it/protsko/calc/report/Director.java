@@ -7,7 +7,7 @@ public class Director {
         reportCreator = rc;
     }
 
-    Report createStartReport() {
+    by.it.protsko.calc.report.Report createStartReport() {
         reportCreator.createReport();
         reportCreator.createFileName();
         reportCreator.createReportTitle();
@@ -15,7 +15,7 @@ public class Director {
         return reportCreator.getReport();
     }
 
-    Report createOperationReport() {
+    by.it.protsko.calc.report.Report createOperationReport() {
 //        reportCreator.createReport();
         reportCreator.createOperation();
         reportCreator.createOperationResult();
@@ -23,8 +23,9 @@ public class Director {
     }
 
     Report createFinishReport() {
-//        reportCreator.createReport();
+        reportCreator.createReport();
+        reportCreator.createFileName();
         reportCreator.createTimeFinishProgram();
         return reportCreator.getReport();
-    }
-}
+    }}
+

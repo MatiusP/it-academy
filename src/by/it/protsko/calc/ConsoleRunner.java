@@ -42,11 +42,11 @@ public class ConsoleRunner {///////////////////
                         operationResult = result.toString();
                         printer.print(result);
                         Var.saveCalcVariable();
-                        PrintReport.printOperationReport();
+                        PrintReport.printOperationReport(result.toString());
                     } catch (CalcException e) {
                         System.out.println(e.getMessage());
                         operationResult = e.getMessage();
-                        PrintReport.printOperationReport();
+                        PrintReport.printOperationReport(e.getMessage());
                         Logger.logMessages(e.getMessage() + "\t(" + line + ")");
                     }
             }

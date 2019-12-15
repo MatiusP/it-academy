@@ -9,6 +9,7 @@ public class PrintReport {
     static void saveReport(String fileName, String... reportItems) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, true))) {
             for (String item : reportItems) {
+                if(item == null) continue;
                 writer.append(item).append("\n");
             }
         } catch (IOException e) {
@@ -17,24 +18,22 @@ public class PrintReport {
     }
 
     public static void printStartReport() {
-        Director director = new Director();
-//        director.setReportCreator(new ShortReportCreator());
+        by.it.protsko.calc.report.Director director = new by.it.protsko.calc.report.Director();
         director.setReportCreator(new ShortReportCreator());
         director.createStartReport().saveStartReport();
     }
 
-    public static void printOperationReport() {
-        Director director = new Director();
+    public static void printOperationReport(String operation) {
+        by.it.protsko.calc.report.Director director = new by.it.protsko.calc.report.Director();
         director.setReportCreator(new ShortReportCreator());
-        director.setReportCreator(new ShortReportCreator());
-        director.createStartReport().saveOperationReport();
+        Report report = director.createStartReport();
+        report.setOperation(operation);
+        report.saveOperationReport();
     }
 
     public static void printFinishReport() {
-        Director director = new Director();
-
+        by.it.protsko.calc.report.Director director = new Director();
         director.setReportCreator(new ShortReportCreator());
-        director.setReportCreator(new ShortReportCreator());
-        director.createStartReport().saveFinishReport();
+        director.createFinishReport().saveFinishReport();
     }
 }

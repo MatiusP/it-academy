@@ -1,25 +1,30 @@
 package by.it.protsko.jd02_03;
 
-import java.util.ArrayDeque;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
 public class QueueBuyer {
-    private final static ArrayDeque<Buyer> queue = new ArrayDeque<>();
+    private final static BlockingDeque<Buyer> queue = new LinkedBlockingDeque<>(30);
 
     static void addBuyer(Buyer buyer) {
-        synchronized (queue) {
-            queue.addLast(buyer);
+        try {
+            queue.putLast(buyer);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     static Buyer pollBuyer() {
-        synchronized (queue) {
-            return queue.pollFirst();
+        try {
+            return queue.pollFirst(1, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    static int getQueueSize(){
-        synchronized (queue){
-            return queue.size();
-        }
+    static int getQueueSize() {
+        return queue.size();
     }
 }

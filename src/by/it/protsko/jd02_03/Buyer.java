@@ -89,7 +89,6 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
         return df.format(totalCost);
     }
 
-
     @Override
     public void goOut() {
         System.out.println(this.getName() + " leaved the market.");

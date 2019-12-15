@@ -1,28 +1,30 @@
 package by.it.protsko.jd02_03;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 class Dispather {
-    volatile static int countBuyer = 0;
+    private final static AtomicInteger countBuyer = new AtomicInteger(0);
     static final int speedProcess = 1000;
     static final double pensionerSpeedProcess = 1.5;
-
     private static final int PLAN = 100;
-    private volatile static int countBuyerInMarket = 0;
-    private volatile static int countCompleteBuyer = 0;
 
-    static synchronized void buyerInMarket() {
-        countBuyerInMarket++;
+    private final static AtomicInteger countBuyerInMarket = new AtomicInteger(0);
+    private final static AtomicInteger countCompleteBuyer = new AtomicInteger(0);
+
+    static void buyerInMarket() {
+        countBuyerInMarket.getAndIncrement();
     }
 
-    static synchronized void buyerLeaveMarket() {
-        countBuyerInMarket--;
-        countCompleteBuyer++;
+    static void buyerLeaveMarket() {
+        countBuyerInMarket.getAndDecrement();
+        countCompleteBuyer.getAndIncrement();
     }
 
-    static synchronized boolean marketOpen() {
-        return (countBuyerInMarket + countCompleteBuyer) < PLAN;
+    static boolean marketOpen() {
+        return (countBuyerInMarket.get() + countCompleteBuyer.get()) < PLAN;
     }
 
     static boolean marketClosed() {
-        return countCompleteBuyer == PLAN;
+        return countCompleteBuyer.get() == PLAN;
     }
 }

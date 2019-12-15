@@ -1,37 +1,44 @@
 package by.it.protsko.jd02_03;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class Market {
+    private final static AtomicInteger numberBuyer = new AtomicInteger(0);
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Market opened!");
-        List<Buyer> listBuyer = new ArrayList<>();
 
-        new ChashBoxService().start();
+        ExecutorService threadPool = Executors.newFixedThreadPool(5);
+
+        for (int i = 1; i <= 2; i++) {
+            Cashier cashier = new Cashier(i);
+            threadPool.execute(cashier);
+        }
 
         while (Dispather.marketOpen()) {
-            createBuyer(listBuyer);
+            createBuyer();
             Thread.sleep(1000 / Dispather.speedProcess);
         }
-        for (Buyer buyer : listBuyer) {
-            buyer.join();
-        }
+
+        threadPool.shutdown();
+        while (!threadPool.awaitTermination(1, TimeUnit.MILLISECONDS)) ;
         System.out.println("\nMarket closed!");
     }
 
-    private static void createBuyer(List<Buyer> listBuyer) {
+    private static void createBuyer() {
         int countBuyer = Helper.randomValue(0, 2);
         for (int j = 1; j <= countBuyer; j++) {
             Buyer buyer;
             if (Dispather.marketOpen()) {
-                if (++Dispather.countBuyer % 4 != 0) {
-                    buyer = new Buyer(Dispather.countBuyer);
+                if (numberBuyer.getAndIncrement() % 4 != 0) {
+                    buyer = new Buyer(numberBuyer.get());
+
                 } else {
-                    buyer = new Buyer(Dispather.countBuyer, true);
+                    buyer = new Buyer(numberBuyer.get(), true);
                 }
-                listBuyer.add(buyer);
                 buyer.start();
             }
         }
