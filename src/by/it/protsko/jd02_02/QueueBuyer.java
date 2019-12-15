@@ -17,4 +17,10 @@ public class QueueBuyer {
             return queue.pollFirst();
         }
     }
+
+    static int getQueueSize(){
+        synchronized (queue){
+            return queue.size();
+        }
+    }
 }
