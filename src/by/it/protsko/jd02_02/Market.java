@@ -17,11 +17,6 @@ class Market {
             thread.start();
         }
 
-
-
-
-
-
         while (Dispather.marketOpen()) {
             createBuyer(listBuyer);
             Thread.sleep(1000 / Dispather.speedProcess);

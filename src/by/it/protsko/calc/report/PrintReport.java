@@ -18,11 +18,10 @@ public class PrintReport {
 
     public static void printStartReport() {
         Director director = new Director();
-        director.setReportCreator(new ShortReportCreator());
+//        director.setReportCreator(new ShortReportCreator());
         director.setReportCreator(new ShortReportCreator());
         director.createStartReport().saveStartReport();
     }
-
 
     public static void printOperationReport() {
         Director director = new Director();
@@ -33,6 +32,7 @@ public class PrintReport {
 
     public static void printFinishReport() {
         Director director = new Director();
+
         director.setReportCreator(new ShortReportCreator());
         director.setReportCreator(new ShortReportCreator());
         director.createStartReport().saveFinishReport();

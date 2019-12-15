@@ -36,12 +36,8 @@ public class ConsoleRunner {///////////////////
                 case "en":
                     resurceManager.setLocal(LanguageChanger.newLanguage(line));
                     break;
-                case "end":
-                    PrintReport.printFinishReport();
-                    break;
                 default:
                     try {
-
                         Var result = parser.calc(line);
                         operationResult = result.toString();
                         printer.print(result);
@@ -55,5 +51,6 @@ public class ConsoleRunner {///////////////////
                     }
             }
         }
+        PrintReport.printFinishReport();
     }
 }

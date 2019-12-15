@@ -9,25 +9,29 @@ public class Cashier implements Runnable {
 
     @Override
     public void run() {
-        System.out.println(this + " opened cashbox");
+        System.out.println(this + " opened cashbox.");
         while (!Dispather.marketClosed()) {
             Buyer buyer = QueueBuyer.pollBuyer();
             if (buyer != null) {
-                System.out.println(this + " start service for " + buyer.getName());
+                System.out.println(this + " start service for " + buyer.getName() + "  (buyer goods " + Buyer.showGoodsInBracket(buyer) + ")");
                 try {
-                    Thread.sleep(Helper.randomValue(2000,5000)/ Dispather.speedProcess);
+                    Thread.sleep(Helper.randomValue(2000, 5000) / Dispather.speedProcess);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                System.out.println(this + " stop service for " + buyer.getName() + ". Сheck amount =" +Buyer.getGoodsCost(buyer) + " BYN");
                 synchronized (buyer) {
                     buyer.notify();
                 }
-                System.out.println(this + " stop service for " + buyer.getName());
             } else {
-
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        System.out.println(this + " closed");
+        System.out.println(this + " closed cashbox.");
     }
 
     @Override
