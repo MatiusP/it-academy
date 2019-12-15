@@ -9,13 +9,13 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
 
     Buyer(int number) {
         super("Buyer №" + number);
-        Dispather.countBuyerInMarket++;
+        Dispather.buyerInMarket();
     }
 
     Buyer(int number, boolean isPensioner) {
         super("Buyer №" + number + " (pensioner)");
         this.pensioner = isPensioner;
-        Dispather.countBuyerInMarket++;
+        Dispather.buyerInMarket();
     }
 
     @Override
@@ -23,6 +23,7 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
         enterToMarket();
         takeBasket();
         chooseGoods();
+        goToQueue();
         goOut();
     }
 
@@ -69,6 +70,20 @@ class Buyer extends Thread implements IBuyer, IUseBasket {
     @Override
     public void goOut() {
         System.out.println(this.getName() + " leaved the market");
-        Dispather.countBuyerInMarket--;
+        Dispather.buyerLeaveMarket();
+    }
+
+    @Override
+    public void goToQueue() {
+        QueueBuyer.addToQueue(this);
+        System.out.println(this.getName() + " встал в очередь.");
+        synchronized (this) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(this.getName() + " завершил обслуживание.");
     }
 }

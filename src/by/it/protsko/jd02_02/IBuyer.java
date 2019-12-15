@@ -7,4 +7,6 @@ interface IBuyer {
     void chooseGoods() throws InterruptedException;
 
     void goOut();
+
+    void goToQueue();
 }

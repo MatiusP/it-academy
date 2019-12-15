@@ -1,8 +1,27 @@
 package by.it.protsko.jd02_02;
 
 class Dispather {
-    static int countBuyer = 0;
-    static int speedProcess = 1000;
-    static double pensionerSpeedProcess = 1.5;
-    static int countBuyerInMarket = 0;
+    volatile static int countBuyer = 0;
+    static final int speedProcess = 1000;
+    static final double pensionerSpeedProcess = 1.5;
+    private final static int PLAN = 100;
+    private volatile static int countBuyerInMarket = 0;
+    private volatile static int countCompleteBuyer = 0;
+
+    static synchronized void buyerInMarket() {
+        countBuyerInMarket++;
+    }
+
+    static synchronized void buyerLeaveMarket() {
+        countBuyerInMarket--;
+        countCompleteBuyer++;
+    }
+
+    static synchronized boolean marketOpen() {
+        return (countBuyerInMarket + countCompleteBuyer) < PLAN;
+    }
+
+    static boolean marketClosed() {
+        return (countBuyerInMarket + countCompleteBuyer) == PLAN;
+    }
 }

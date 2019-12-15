@@ -1,6 +1,6 @@
 package by.it.protsko.calc;
 
-import by.it.protsko.calc.Log.Logger;
+import by.it.protsko.calc.log.Logger;
 import by.it.protsko.calc.lang_operations.CalcExpMessages;
 import by.it.protsko.calc.lang_operations.ResurceManager;
 

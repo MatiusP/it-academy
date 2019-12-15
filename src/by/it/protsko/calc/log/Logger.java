@@ -1,6 +1,6 @@
-package by.it.protsko.calc.Log;
+package by.it.protsko.calc.log;
 
-import by.it.protsko.calc.DateTime.Date;
+import by.it.protsko.calc.datetime.Date;
 
 import java.io.File;
 import java.io.FileWriter;

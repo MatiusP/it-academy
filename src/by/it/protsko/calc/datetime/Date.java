@@ -1,4 +1,4 @@
-package by.it.protsko.calc.DateTime;
+package by.it.protsko.calc.datetime;
 
 import by.it.protsko.calc.lang_operations.ResurceManager;
 
