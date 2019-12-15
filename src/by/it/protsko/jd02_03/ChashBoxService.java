@@ -1,4 +1,4 @@
-package by.it.protsko.jd02_02;
+package by.it.protsko.jd02_03;
 
 import java.util.ArrayList;
 import java.util.List;

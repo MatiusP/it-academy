@@ -1,4 +1,4 @@
-package by.it.protsko.jd02_02;
+package by.it.protsko.jd02_03;
 
 public class Cashier implements Runnable {
     private String name;
