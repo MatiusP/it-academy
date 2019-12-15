@@ -1,10 +1,9 @@
 package by.it.protsko.jd02_02;
 
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 
 public class QueueBuyer {
-    private final static Deque<Buyer> queue = new LinkedList<>();
+    private final static ArrayDeque<Buyer> queue = new ArrayDeque<>();
 
     static void addBuyer(Buyer buyer) {
         synchronized (queue) {
