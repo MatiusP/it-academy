@@ -3,7 +3,7 @@ package by.it.protsko.calc.report;
 abstract class ReportCreator {
     Report report;
 
-    public void createReport() {
+    void createReport() {
         report = new Report();
     }
 

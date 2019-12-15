@@ -3,13 +3,13 @@ package by.it.protsko.calc;
 import by.it.protsko.calc.lang_operations.LanguageChanger;
 import by.it.protsko.calc.lang_operations.ResurceManager;
 import by.it.protsko.calc.log.Logger;
-import by.it.protsko.calc.report.PrintReport;
+import by.it.protsko.calc.report.*;
 
 import java.util.Scanner;
 
-public class ConsoleRunner {///////////////////
+public class ConsoleRunner {
 
-    public static String operation;///////////////
+    public static String operation;
     public static String operationResult;
 
     public static void main(String[] args) {
@@ -20,10 +20,14 @@ public class ConsoleRunner {///////////////////
         Printer printer = new Printer();
         ResurceManager resurceManager = ResurceManager.INSTANSE;
         Var.loadCalcVariable();
-        PrintReport.printStartReport();
 
+        Director director = new Director();
+        director.setReportCreator(new ShortReportCreator());
+        Report report = director.createReport();
+
+        PrintReport.printStartReport(report);
         while (!(line = sc.nextLine()).equals("end")) {
-            operation = line;                       ///////////////
+            operation = line;
             switch (line) {
                 case "printvar":
                     Printer.printVar();
@@ -42,15 +46,15 @@ public class ConsoleRunner {///////////////////
                         operationResult = result.toString();
                         printer.print(result);
                         Var.saveCalcVariable();
-                        PrintReport.printOperationReport(result.toString());
                     } catch (CalcException e) {
                         System.out.println(e.getMessage());
                         operationResult = e.getMessage();
-                        PrintReport.printOperationReport(e.getMessage());
                         Logger.logMessages(e.getMessage() + "\t(" + line + ")");
                     }
+                    report = director.createReport();
+                    PrintReport.printOperation(report);
             }
         }
-        PrintReport.printFinishReport();
+        PrintReport.printEndReport(report);
     }
 }

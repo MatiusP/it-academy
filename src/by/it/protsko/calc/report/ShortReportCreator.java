@@ -14,7 +14,7 @@ public class ShortReportCreator extends ReportCreator {
 
     @Override
     void createTimeStartProgram() {
-        report.setTimeStartProgram("Старт программы: " +Date.getCurrentDate());
+        report.setTimeStartProgram("Старт программы: " + Date.getCurrentDate());
     }
 
     @Override
@@ -24,12 +24,12 @@ public class ShortReportCreator extends ReportCreator {
 
     @Override
     void createOperationResult() {
-        report.setOperationResult("\t\t" + "Результат операции: " +ConsoleRunner.operationResult);
+        report.setOperationResult("Результат операции: " + ConsoleRunner.operationResult);
     }
 
     @Override
     void createTimeFinishProgram() {
-        report.setTimeFinishProgram("Завершение программы: "+Date.getCurrentDate());
+        report.setTimeFinishProgram("Завершение программы: " + Date.getCurrentDate());
     }
 
     @Override

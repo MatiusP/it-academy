@@ -6,7 +6,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class FullReport extends ReportCreator {
+public class FullReportCreator extends ReportCreator {
 
     @Override
     void createReportTitle() {
@@ -15,7 +15,7 @@ public class FullReport extends ReportCreator {
 
     @Override
     void createTimeStartProgram() {
-        report.setTimeStartProgram(LocalDate.now() + " " + LocalTime.now());
+        report.setTimeStartProgram("Старт программы: " + LocalDate.now() + " " + LocalTime.now());
     }
 
     @Override
@@ -25,19 +25,18 @@ public class FullReport extends ReportCreator {
 
     @Override
     void createOperationResult() {
-        report.setOperationResult("\t\t" + "Результат операции: " +ConsoleRunner.operationResult);
+        report.setOperationResult("Результат операции: " + ConsoleRunner.operationResult);
     }
 
     @Override
     void createTimeFinishProgram() {
-        report.setTimeFinishProgram("Завершение программы: " +LocalDate.now() + " " + LocalTime.now());
+        report.setTimeFinishProgram("Завершение программы: " + LocalDate.now() + " " + LocalTime.now());
     }
 
     @Override
     void createFileName() {
-        report.setFileName(getPath(FullReport.class) + "fullReport.txt");
+        report.setFileName(getPath(FullReportCreator.class) + "fullReport.txt");
     }
-
 
     private static String getPath(Class<?> cClass) {
         return System.getProperty("user.dir")

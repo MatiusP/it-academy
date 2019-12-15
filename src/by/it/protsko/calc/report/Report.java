@@ -43,4 +43,40 @@ public class Report {
     void saveFinishReport() {
         PrintReport.saveReport(fileName, timeFinishProgram);
     }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public String getReportTitle() {
+        return reportTitle;
+    }
+
+    public String getTimeStartProgram() {
+        return timeStartProgram;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public String getOperationResult() {
+        return operationResult;
+    }
+
+    public String getTimeFinishProgram() {
+        return timeFinishProgram;
+    }
+
+    @Override
+    public String toString() {
+        return "Report{" +
+                "reportTitle='" + reportTitle + '\'' +
+                ", timeStartProgram='" + timeStartProgram + '\'' +
+                ", operation='" + operation + '\'' +
+                ", operationResult='" + operationResult + '\'' +
+                ", timeFinishProgram='" + timeFinishProgram + '\'' +
+                ", fileName='" + fileName + '\'' +
+                '}';
+    }
 }
