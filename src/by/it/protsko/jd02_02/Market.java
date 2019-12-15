@@ -10,12 +10,14 @@ class Market {
         List<Buyer> listBuyer = new ArrayList<>();
 //        List<Thread> cashierList = new ArrayList<>();
 
-        for (int i = 1; i <= 2; i++) {
-            Cashier cashier = new Cashier(i);
-            Thread thread = new Thread(cashier);
-//            cashierList.add(thread);
-            thread.start();
-        }
+        new ChashBoxService().start();
+
+//        for (int i = 1; i <= 2; i++) {
+//            Cashier cashier = new Cashier(i);
+//            Thread thread = new Thread(cashier);
+////            cashierList.add(thread);
+//            thread.start();
+//        }
 
 
         while (Dispather.marketOpen()) {

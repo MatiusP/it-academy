@@ -11,7 +11,7 @@ public class ChashBoxService extends Thread {
     @Override
     public void run() {
         while (!Dispather.marketClosed()) {
-            if (cashierList.size() <= 5 & (QueueBuyer.getQueueSize() > cashierList.size() * 5)) {
+            if ((cashierList.size() < 5) && (QueueBuyer.getQueueSize() > (cashierList.size() * 5)+1)) {
                 Cashier cashier = new Cashier(++countCashier);
                 Thread thread = new Thread(cashier);
                 cashierList.add(thread);
