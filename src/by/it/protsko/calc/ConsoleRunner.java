@@ -22,7 +22,7 @@ public class ConsoleRunner {
         Var.loadCalcVariable();
 
         Director director = new Director();
-        director.setReportCreator(new ShortReportCreator());
+        director.setReportCreator(new FullReportCreator());
         Report report = director.createReport();
 
         PrintReport.printStartReport(report);

@@ -24,3 +24,10 @@ test_error=ОШИБКА: результат не соответствует ож
 calcexception_message=ОШИБКА:
 
 parser_error.invalidexpression=Выражение не корректно
+
+report_messages_reporttopicfull=ПОЛНЫЙ ОТЧЕТ
+report_messages_reporttopicshort=СОКРАЩЕННЫЙ ОТЧЕТ
+report_messages_startprogram=Старт программы:
+report_messages_operation=Введенная операция:
+report_messages_operationres=Результат операции:
+report_messages_finishprogram=Завершение программы:

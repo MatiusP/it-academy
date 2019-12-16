@@ -24,3 +24,10 @@ test_error=Error: incorrect result
 calcexception_message=ERROR:
 
 parser_error.invalidexpression=Expression is not correct
+
+report_messages_reporttopicfull=FULL REPORT
+report_messages_reporttopicshort=SHORT REPORT
+report_messages_startprogram=Start program:
+report_messages_operation=Operation:
+report_messages_operationres=Operation result:
+report_messages_finishprogram=Finish ptogram:

@@ -24,3 +24,10 @@ test_error=ПАМЫЛКА: вынік не адпавядае чаканням
 calcexception_message=ПАМЫЛКА:
 
 parser_error.invalidexpression=Выраз не карэкцен
+
+report_messages_reporttopicfull=ПОЎНАЯ СПРАВАЗДАЧА
+report_messages_reporttopicshort=КАРОТКАЯ СПРАВАЗДАЧА
+report_messages_startprogram=Старт праграмы:
+report_messages_operation=Уведзеная аперацыя:
+report_messages_operationres=Вынiк аперацыi:
+report_messages_finishprogram=Завяршэнне праграмы:
